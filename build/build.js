@@ -90,6 +90,11 @@ var list = [
 }, {
     locale: 'jp'
 }, {
+    locale: 'ko',
+    file: 'KoreanStemmer.js',
+    stopwords: stopwordsCustomFolder + 'ko.csv',
+    wordCharacters: wordCharacters('Hangul')
+}, {
     locale: 'no',
     file: 'NorwegianStemmer.js',
     stopwords: stopwordsCustomFolder + 'no.csv',
