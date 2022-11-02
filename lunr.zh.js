@@ -31,10 +31,10 @@
      * like Node.
      */
     // module.exports = factory(require('@node-rs/jieba'))
-    module.exports = factory(require('novel-segment'))
+    module.exports = factory()
   } else {
     // Browser globals (root is window)
-    factory(require('novel-segment'))(root.lunr);
+    factory()(root.lunr);
   }
 }(this, function(Segment) {
   /**
@@ -91,22 +91,18 @@
         return isLunr2 ? new lunr.Token(t.toLowerCase()) : t.toLowerCase()
       })
 
-      var segment = new Segment();
-      segment.useDefault();
-      // nodejiebaDictJson && nodejieba.load(nodejiebaDictJson)
-
-      var str = obj.toString().trim().toLowerCase();
       var tokens = [];
-
-      segment.doSegment(str, {
-        simple: true,
-        stripPunctuation: true
-      }).forEach(function(seg) {
-        tokens = tokens.concat(seg)
-      });
-      // nodejieba.cut(str, true).forEach(function(seg) {
-      //   tokens = tokens.concat(seg.split(' '))
-      // })
+      try {
+        var segmenter = new Intl.Segmenter('zh', { granularity: 'word' });
+        var str = obj.toString().trim().toLowerCase();
+        segmenter.segment(str).forEach(function(seg) {
+          if (seg.isWordLike) {
+            tokens = tokens.concat(seg.segment)
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
 
       tokens = tokens.filter(function(token) {
         return !!token;
