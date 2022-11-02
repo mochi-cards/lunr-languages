@@ -98,7 +98,7 @@
         var segments = segmenter.segment(str)
         for (seg of segments) {
           if (seg.isWordLike) { tokens = tokens.concat(seg.segment) }
-        });
+        }
       } catch (error) {
         console.error(error);
       }
