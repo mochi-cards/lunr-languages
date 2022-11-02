@@ -41,7 +41,7 @@ module.exports = {
             found: 1
         }, {
             what: "find the word %w",
-            search: "CCTV13",
+            search: "CCTV",
             found: 1
         }, {
             what: "never find a word that does not exist, like %w",

@@ -30,18 +30,19 @@
      * only CommonJS-like environments that support module.exports,
      * like Node.
      */
-    module.exports = factory(require('@node-rs/jieba'))
+    // module.exports = factory(require('@node-rs/jieba'))
+    module.exports = factory(require('novel-segment'))
   } else {
     // Browser globals (root is window)
-    factory()(root.lunr);
+    factory(require('novel-segment'))(root.lunr);
   }
-}(this, function(nodejieba) {
+}(this, function(Segment) {
   /**
    * Just return a value to define the module export.
    * This example returns an object, but the module
    * can return a function as the exported value.
    */
-  return function(lunr, nodejiebaDictJson) {
+  return function(lunr) {
     /* throw error if lunr is not yet included */
     if ('undefined' === typeof lunr) {
       throw new Error('Lunr is not present. Please include / require Lunr before this script.');
@@ -90,14 +91,22 @@
         return isLunr2 ? new lunr.Token(t.toLowerCase()) : t.toLowerCase()
       })
 
-      nodejiebaDictJson && nodejieba.load(nodejiebaDictJson)
+      var segment = new Segment();
+      segment.useDefault();
+      // nodejiebaDictJson && nodejieba.load(nodejiebaDictJson)
 
       var str = obj.toString().trim().toLowerCase();
       var tokens = [];
 
-      nodejieba.cut(str, true).forEach(function(seg) {
-        tokens = tokens.concat(seg.split(' '))
-      })
+      segment.doSegment(str, {
+        simple: true,
+        stripPunctuation: true
+      }).forEach(function(seg) {
+        tokens = tokens.concat(seg)
+      });
+      // nodejieba.cut(str, true).forEach(function(seg) {
+      //   tokens = tokens.concat(seg.split(' '))
+      // })
 
       tokens = tokens.filter(function(token) {
         return !!token;
