@@ -93,7 +93,9 @@
       })
 
       var str = obj.toString().replace(/^\s+/, '');
-      return segmenter.cut(str).split('|');
+      return segmenter.cut(str).split('|').map(function(t) {
+        return isLunr2 ? new lunr.Token(t) : t
+      });
     }
   };
 }))
