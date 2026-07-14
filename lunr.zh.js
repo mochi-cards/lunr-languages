@@ -96,7 +96,7 @@
         var segmenter = new Intl.Segmenter('zh', { granularity: 'word' });
         var str = obj.toString().trim().toLowerCase();
         var segments = segmenter.segment(str)
-        for (seg of segments) {
+        for (var seg of segments) {
           if (seg.isWordLike) { tokens = tokens.concat(seg.segment) }
         }
       } catch (error) {
