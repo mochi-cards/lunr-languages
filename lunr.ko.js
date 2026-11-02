@@ -80,10 +80,9 @@
     };
 
     /* lunr trimmer function */
-    lunr.ko.wordCharacters = "[" +
+    lunr.ko.wordCharacters =
       "A-Za-z" +
-      "\uac00-\ud7afa" +
-      "]";
+      "\uac00-\ud7afa";
     lunr.ko.trimmer = lunr.trimmerSupport.generateTrimmer(lunr.ko.wordCharacters);
 
     lunr.Pipeline.registerFunction(lunr.ko.trimmer, 'trimmer-ko');
